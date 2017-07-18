@@ -1,7 +1,7 @@
 //Upper Body Control Greeting
 Dynamixel Dxl(1);
 
-//Angle conversion
+//Angle conversion (degree to 0-1023)
 int d (float input){
   int output;
   if (input < 0){
