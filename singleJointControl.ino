@@ -38,5 +38,5 @@ void setup() {
 
 void loop(){
 SJC(5,d(-90),600); // call singel joint control function :ID,angle,time
-SJC(5,d(60),600);
+SJC(5,d(60),300);
 }
