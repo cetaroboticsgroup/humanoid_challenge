@@ -21,8 +21,8 @@ void SJC(int ID,int GP,int T)//ID num, Goal postion, Time(ms)
 {
   int isMoving = Dxl.readByte(ID, 49);
   if( isMoving == 0 ){  // move or not
-    int PP = Dxl.readWord(ID,37); // present postion
     int speed;
+    int PP = Dxl.readWord(ID,37); // PP:Present Postion
     if(GP>=GP){
       speed = (GP-PP)*1000/T/2.2867; //unit is about 0.111rpm = 0.67deg/s = 2.2867/s 
     }
@@ -30,15 +30,13 @@ void SJC(int ID,int GP,int T)//ID num, Goal postion, Time(ms)
       speed = (PP-GP)*1000/T/2.2867;
       speed = speed +1023;}
     Dxl.writeWord(ID,32,speed) ; // wirte word to motor
-    Dxl.writeWord(ID,30,GP) ; 
-    T = T +100;
-    delay(T);
+    Dxl.writeWord(ID,30,GP) ;
+    delay(T); 
     SerialUSB.print("Present speed");
     SerialUSB.println(speed);
+    SerialUSB.println(PP);
   }
 }
-
-
 
 void setup() {
   // Dynamixel 2.0 Baudrate -> 0: 9600, 1: 57600, 2: 115200, 3: 1Mbps
@@ -48,6 +46,6 @@ void setup() {
 
 
 void loop(){
-SJC(5,d(-90),100); // call singel joint control function :ID,angle,time
-SJC(5,d(0),300);
+SJC(5,d(-90),500); // call singel joint control function :ID,angle,time(ms)
+SJC(5,d(90),500);
 }
