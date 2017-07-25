@@ -19,20 +19,18 @@ int d (float input){
 //Single Joint Control function
 void SJC(int ID,int GP,int T)//ID num, Goal postion, Time(ms)
 {
-  int isMoving = Dxl.readByte(ID, 49);
-  if( isMoving == 0 ){  // move or not
+  //int isMoving = Dxl.readByte(ID, 49);
+  if(1){// isMoving == 0 ){  // move or not
     int speed;
     int PP = Dxl.readWord(ID,37); // PP:Present Postion
-    if(GP>=GP){
-      speed = (GP-PP)*1000/T/2.2867; //unit is about 0.111rpm = 0.67deg/s = 2.2867/s 
-    }
-    else{
-      speed = (PP-GP)*1000/T/2.2867;
-      speed = speed +1023;}
+      speed = ((GP-PP)*1000/T)/0.67; //unit is about 0.111rpm = 0.67deg/s 
+      if(speed>1023){speed=1023;}
+      if(speed<0){speed=-speed;}
+  
     Dxl.writeWord(ID,32,speed) ; // wirte word to motor
     Dxl.writeWord(ID,30,GP) ;
-    delay(T); 
-    SerialUSB.print("Present speed");
+    delay(1*T); 
+    SerialUSB.print("Present Speed");
     SerialUSB.println(speed);
     SerialUSB.println(PP);
   }
