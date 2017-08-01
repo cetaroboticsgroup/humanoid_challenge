@@ -30,7 +30,7 @@ void SJC(int ID,int GP,int T)//ID num, Goal postion, Time(ms)
     Dxl.writeWord(ID,32,speed) ; // wirte word to motor
     Dxl.writeWord(ID,30,GP) ;
     delay(1*T); 
-    SerialUSB.print("Present Speed");
+    SerialUSB.print("Present Speed");// print 
     SerialUSB.println(speed);
     SerialUSB.println(PP);
   }
