@@ -44,12 +44,12 @@ void MJC(int GP[17],int T){
   for (ID=1;ID<=16;ID++){
     int D;
     D = GP[ID] - CP[ID];
-    if (abs(D)>10){
+    if (abs(D)>5){    // Eliminate sensor errors
       SJC(ID,GP[ID],T);
       }
   }
   
-  delay(1.1*T); 
+  delay(1*T); // move delay time from SJC to here
 }
 
 void setup() {

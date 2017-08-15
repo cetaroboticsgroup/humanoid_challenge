@@ -24,8 +24,8 @@ void SJC(int ID,int GP,int T)//ID num, Goal postion, Time(ms)
     int speed;
     int PP = Dxl.readWord(ID,37); // PP:Present Postion
       speed = ((GP-PP)*1000/T)/0.67; //unit is about 0.111rpm = 0.67deg/s 
-      if(speed>1023){speed=1023;}
       if(speed<0){speed=-speed;}
+      if(speed>1023){speed=1023;}
   
     Dxl.writeWord(ID,32,speed) ; // wirte word to motor
     Dxl.writeWord(ID,30,GP) ;
@@ -44,6 +44,8 @@ void setup() {
 
 
 void loop(){
-SJC(5,-90,500); // call singel joint control function :ID,angle,time(ms)
-SJC(5,90,500);
+SJC(5,-90,1000); // call singel joint control function :ID,angle,time(ms)
+SJC(5,90,1000);
+SJC(5,-90,3000);
+SJC(5,90,3000);
 }
