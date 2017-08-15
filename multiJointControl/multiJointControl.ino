@@ -60,6 +60,7 @@ void setup() {
 
 
 void loop(){
+  
 int GP[17];  //Goal Position Array
 int T;      // Run Time
 int ID;
@@ -78,43 +79,43 @@ for (ID=1;ID<=16;ID++){
   GP[10] = d(45);
   GP[11] = 952;
   GP[12] = 69;
-  T = 500;
+  T = 1000;
   MJC(GP,T);
   
 //motion 2
   GP[1] = d(-60);
   GP[2] = d(-60);
-  T = 500;
+  T = 1000;
   MJC(GP,T);
 
 //motion 3
   GP[5] = d(-90);
   GP[6] = d(90);
-  T = 500;
+  T = 1000;
   MJC(GP,T);
   
 //motion 4
   GP[9] = d(-80);
   GP[10] = d(80);
-  T = 1000;
+  T = 2000;
   MJC(GP,T);
 
 //motion 5
   GP[9] = d(-45);
   GP[10] = d(45);
-  T = 1000;
+  T = 2000;
   MJC(GP,T);
   
 //motion 6
   GP[5] = d(0);
   GP[6] = d(0);
-  T = 500;
+  T = 1000;
   MJC(GP,T);
   
 //motion 7  
   GP[1] = d(0);
   GP[2] = d(0);
-  T = 500;
+  T = 1000;
   MJC(GP,T);
 
   

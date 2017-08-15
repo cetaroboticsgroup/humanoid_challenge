@@ -19,7 +19,7 @@ int d (float input){
 //Single Joint Control function
 void SJC(int ID,int GP,int T)//ID num, Goal postion, Time(ms)
 {
-  //int isMoving = Dxl.readByte(ID, 49);
+  GP = d(GP);
   if(1){// isMoving == 0 ){  // move or not
     int speed;
     int PP = Dxl.readWord(ID,37); // PP:Present Postion
@@ -44,6 +44,6 @@ void setup() {
 
 
 void loop(){
-SJC(5,d(-90),500); // call singel joint control function :ID,angle,time(ms)
-SJC(5,d(90),500);
+SJC(5,-90,500); // call singel joint control function :ID,angle,time(ms)
+SJC(5,90,500);
 }
