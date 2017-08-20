@@ -22,9 +22,9 @@ void SJC(int ID,int GP,int T)//ID num, Goal postion, Time(ms)
   if(1){// isMoving == 0 ){  // move or not
     int speed;
     int PP = Dxl.readWord(ID,37); // PP:Present Postion
-      speed = ((GP-PP)*1000/T)/0.67; //unit is about 0.111rpm = 0.67deg/s 
-      if(speed>1023){speed=1023;}
-      if(speed<0){speed=-speed;}
+      speed = ((GP-PP)*1000/T)/2.286; //unit is about 0.111rpm = 0.67deg/s=2.286 num  
+    if(speed<0){speed=-speed;}  
+    if(speed>1023){speed=1023;}
   
     Dxl.writeWord(ID,32,speed) ; // wirte word to motor
     Dxl.writeWord(ID,30,GP) ;
@@ -37,19 +37,19 @@ void MJC(int GP[17],int T){
   int ID;
   CP[0]=0;
   
-  for ( ID=1; ID <= 16;ID ++){
-    CP[ID] = Dxl.readWord(ID,37);   //readcurrent postion to CP
-  }
+  //for ( ID=1; ID <= 16;ID ++){
+    //CP[ID] = Dxl.readWord(ID,37);   //readcurrent postion to CP
+ // }
 
   for (ID=1;ID<=16;ID++){
     int D;
-    D = GP[ID] - CP[ID];
-    if (abs(D)>5){    // Eliminate sensor errors
+    //D = GP[ID] - CP[ID];
+    //if (abs(D)>5){    // Eliminate sensor errors
       SJC(ID,GP[ID],T);
-      }
+      //}
   }
   
-  delay(1*T); // move delay time from SJC to here
+  delay(1.1*T); // move delay time from SJC to here
 }
 
 void setup() {
@@ -79,43 +79,43 @@ for (ID=1;ID<=16;ID++){
   GP[10] = d(45);
   GP[11] = 952;
   GP[12] = 69;
-  T = 1000;
+  T = 500;
   MJC(GP,T);
   
 //motion 2
   GP[1] = d(-60);
   GP[2] = d(-60);
-  T = 1000;
+  T = 500;
   MJC(GP,T);
 
 //motion 3
   GP[5] = d(-90);
   GP[6] = d(90);
-  T = 1000;
+  T = 500;
   MJC(GP,T);
   
 //motion 4
   GP[9] = d(-80);
   GP[10] = d(80);
-  T = 2000;
+  T = 1000;
   MJC(GP,T);
 
 //motion 5
   GP[9] = d(-45);
   GP[10] = d(45);
-  T = 2000;
+  T = 1000;
   MJC(GP,T);
   
 //motion 6
   GP[5] = d(0);
   GP[6] = d(0);
-  T = 1000;
+  T = 500;
   MJC(GP,T);
   
 //motion 7  
   GP[1] = d(0);
   GP[2] = d(0);
-  T = 1000;
+  T = 500;
   MJC(GP,T);
 
   

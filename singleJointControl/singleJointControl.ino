@@ -23,16 +23,16 @@ void SJC(int ID,int GP,int T)//ID num, Goal postion, Time(ms)
   if(1){// isMoving == 0 ){  // move or not
     int speed;
     int PP = Dxl.readWord(ID,37); // PP:Present Postion
-      speed = ((GP-PP)*1000/T)/0.67; //unit is about 0.111rpm = 0.67deg/s 
+      speed = ((GP-PP)*1000/T)/2.286; //unit is about 0.111rpm = 0.67deg/s=2.286 num 
       if(speed<0){speed=-speed;}
       if(speed>1023){speed=1023;}
   
     Dxl.writeWord(ID,32,speed) ; // wirte word to motor
     Dxl.writeWord(ID,30,GP) ;
-    delay(1*T); 
+    delay(1.1*T); 
     SerialUSB.print("Present Speed");// print 
     SerialUSB.println(speed);
-    SerialUSB.println(PP);
+    SerialUSB.println((GP-PP));
   }
 }
 
@@ -44,8 +44,8 @@ void setup() {
 
 
 void loop(){
-SJC(5,-90,1000); // call singel joint control function :ID,angle,time(ms)
-SJC(5,90,1000);
-SJC(5,-90,3000);
-SJC(5,90,3000);
+SJC(3,0,1000); // call singel joint control function :ID,angle,time(ms)
+SJC(4,0,1000);
+SJC(3,-80,500);
+SJC(4,80,500);
 }
