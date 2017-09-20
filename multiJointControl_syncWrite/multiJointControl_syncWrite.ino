@@ -3,7 +3,7 @@
 Dynamixel Dxl(1);
 
 //Angle conversion (degree to 0-1023)
-int d (int input){
+int d (float input){
   int output;
   if (input < 0){
     output = (input+150)/300*1024;
@@ -15,10 +15,11 @@ int d (int input){
 }
 
 //Inverse Angle conversion ( 0-1023 to degree)
-int Id (int input){
+int Id (float input){
   int output;
   if (input < 512){
-    output = (input*300/1024)-150;
+    output = (input*300/1024);
+    output = output -150;
   }
   else{
     output = (input-512)*300/1024;
@@ -87,11 +88,11 @@ int ID;
 GP[0]=0;
 
 for (ID=1;ID<=16;ID++){
-  //GP[ID] = Dxl.readWord(ID,37);  //readcurrent postion to GP, Initialize GP
- // GP[ID] = Id(GP[ID]);
- GP[ID] = 0;
+  GP[ID] = Dxl.readWord(ID,37);  //readcurrent postion to GP, Initialize GP
+  GP[ID] = Id(GP[ID]);
   }
   
+while(1){
 //motion 1
   GP[1] = 0;
   GP[3] = -60;
@@ -138,4 +139,5 @@ for (ID=1;ID<=16;ID++){
   GP[2] = 0;
   T = 500;
   MJC(GP,T);
+}
 }
