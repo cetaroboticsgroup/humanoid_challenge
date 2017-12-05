@@ -1,4 +1,5 @@
 
+
 //Dynamixel on Serial1(USART1)  <-OpenCM9.04
 Dynamixel Dxl(1);
 
@@ -35,19 +36,19 @@ void MJC(int GP[17],int T){;
   int ID;
   CP[0]=0;
   
-  for ( ID=1; ID <= 16;ID ++){
-    GP[ID]=d(GP[ID]);
-  }
   
   for ( ID=1; ID <= 16;ID ++){
+      
     CP[ID] = Dxl.readWord(ID,37);   //readcurrent postion to CP
-  }
-  
-  for (ID=1;ID<=16;ID++){
+    
+    GP[ID]=d(GP[ID]);
+    
     speed[ID] = ((GP[ID]-CP[ID])*1000/T)/2.286; //unit is about 0.111rpm = 0.67deg/s=2.286 num  
     if(speed[ID]<0){speed[ID]=-speed[ID];}  
     if(speed[ID]>1023){speed[ID]=1023;}
   }
+  
+  
   
   word SyncPage1[48]=
   { 
@@ -72,6 +73,7 @@ void MJC(int GP[17],int T){;
   
   delay(1.1*T); // move delay time from SJC to here
 }
+
 
 void setup() {
   // Dynamixel 2.0 Baudrate -> 0: 9600, 1: 57600, 2: 115200, 3: 1Mbps
