@@ -46,6 +46,18 @@ void MJC(int GP[17],int T){;
     speed[ID] = ((GP[ID]-CP[ID])*1000/T)/2.286; //unit is about 0.111rpm = 0.67deg/s=2.286 num  
     if(speed[ID]<0){speed[ID]=-speed[ID];}  
     if(speed[ID]>1023){speed[ID]=1023;}
+    
+    //Fix rotation direction
+    if (ID = 1){GP[ID] = -GP[ID];}
+    if (ID = 3){GP[ID] = -GP[ID];}
+    if (ID = 4){GP[ID] = -GP[ID];}
+    if (ID = 5){GP[ID] = -GP[ID];}
+    if (ID = 6){GP[ID] = -GP[ID];}
+    if (ID = 8){GP[ID] = -GP[ID];}
+    if (ID = 10){GP[ID] = -GP[ID];}
+    if (ID = 12){GP[ID] = -GP[ID];}
+    if (ID = 14){GP[ID] = -GP[ID];}
+    
   }
   
   
