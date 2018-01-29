@@ -2,6 +2,10 @@
 //Dynamixel on Serial1(USART1)  <-OpenCM9.04
 Dynamixel Dxl(1);
 
+
+
+
+
 //Angle conversion (degree to 0-1023)
 int d (float input){
   int output;
@@ -18,21 +22,22 @@ int d (float input){
 //Single Joint Control function
 void SJC(int ID,int GP,int T)//ID num, Goal postion, Time(ms)
 {
-  GP = d(GP);
-  if(1){// isMoving == 0 ){  // move or not
+    GP = d(GP);
+    
     int speed;
     int PP = Dxl.readWord(ID,37); // PP:Present Postion
-      speed = ((GP-PP)*1000/T)/2.286; //unit is about 0.111rpm = 0.67deg/s=2.286 num 
-      if(speed<0){speed=-speed;}
-      if(speed>1023){speed=1023;}
+    
+    speed = ((GP-PP)*1000/T)/2.286; //unit is about 0.111rpm = 0.67deg/s=2.286 num 
+    if(speed<0){speed=-speed;}
+    if(speed>1023){speed=1023;}
   
     Dxl.writeWord(ID,32,speed) ; // wirte word to motor
     Dxl.writeWord(ID,30,GP) ;
     delay(1.1*T); 
-    SerialUSB.print("Present Speed");// print 
-    SerialUSB.println(speed);
-    SerialUSB.println((GP-PP));
-  }
+
+//   SerialUSB.println(PP);
+//   SerialUSB.println((GP));
+  
 }
 
 void setup() {
@@ -41,10 +46,11 @@ void setup() {
 }
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////
+///IK PART
+///////////////
 
 int deg[5];
-
 #define pi 3.1415926535897932384626433832795
 
 void IK(){
@@ -52,7 +58,7 @@ void IK(){
   double Alpha,C,t21,t22;
   double t[5];
   
-  Tx = 60; Ty = -24;Tz = -120; // postion input
+  Tx = 15; Ty = -24;Tz = -145; // postion input
   
   C =sq(Tx-15)+sq(Ty+24)+sq(Tz+78);
   
@@ -63,12 +69,13 @@ void IK(){
   t[1] = atan2((Ty+24),-(Tz+78));
   
   t21 = asin(sqrt((1-sq(C/3780-421/420)))*45/sqrt(C));
-  t22 =atan2((15-Tx),(sqrt(sq(Ty+24)+sq(Tz+78))))+acos(421/420 - C/3780);
-  t[2] = t21 +t22;
+  t22 =atan2((15-Tx),(sqrt(sq(Ty+24)+sq(Tz+78))+acos(421/420 - C/3780)));
+  t[2] = -(t21 +t22);
   
-  for (int i = 0; i<=5;i++)
+  for (int i = 1; i<=5;i++)
   {
-    deg[i]=t[i]/pi*180;
+    deg[i]=t[i]*180/pi;
+    SerialUSB.println(deg[i]);
   }
   
 }
@@ -76,12 +83,19 @@ void IK(){
 void loop() {
   IK();
   
-  
-  
-  SJC(7,deg[1],1000); 
-  SJC(9,deg[2],1000);
-  SJC(11,deg[3],500);
-  SJC(13,deg[4],500);
-  SJC(15,deg[5],500);
+//  int GP[5];
+//   for (int i = 1; i<=5;i++)
+//  {
+//    GP[i]=deg[i];
+//  }
+//  
+//  SerialUSB.println(deg[1]);
+//  
+//  SJC(7,GP[1],1000); 
+//  SJC(9,GP[2],1000);
+//  SJC(11,GP[3],1000);
+//  SJC(13,GP[4],1000);
+//  SJC(15,GP[5],1000);
+
 }
 

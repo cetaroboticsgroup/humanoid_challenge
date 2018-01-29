@@ -1,18 +1,17 @@
-clc
 clear all
 
 %  syms Rxx Rxy Rxz Ryx Ryy Ryz Rzx Rzy Rzz 
  
-% syms Tx Ty Tz
+ syms Tx Ty Tz
 
 % T = [Rxx Rxy Rxz Tx
 %      Ryx Ryy Ryz Ty
 %      Rzx Rzy Rzz Tz
 %      0 0 0 1]
 
-T = [1 0 0 45
-     0 1 0 -4
-     0 0 1 -135
+T = [1 0 0 Tx
+     0 1 0 Ty
+     0 0 1 Tz
      0 0 0 1]
 
 Px = T(1,4);

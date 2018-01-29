@@ -19,6 +19,7 @@ int d (float input){
 //Single Joint Control function
 void SJC(int ID,int GP,int T)//ID num, Goal postion, Time(ms)
 {
+
   GP = d(GP);
   if(1){// isMoving == 0 ){  // move or not
     int speed;
@@ -34,18 +35,7 @@ void SJC(int ID,int GP,int T)//ID num, Goal postion, Time(ms)
     SerialUSB.println(speed);
     SerialUSB.println((GP-PP));
     
-    for ( ID=1; ID <= 16;ID ++){    
-        //Fix rotation direction
-        if (ID = 1){GP[ID] = -GP[ID];}
-        if (ID = 3){GP[ID] = -GP[ID];}
-        if (ID = 4){GP[ID] = -GP[ID];}
-        if (ID = 5){GP[ID] = -GP[ID];}
-        if (ID = 6){GP[ID] = -GP[ID];}
-        if (ID = 8){GP[ID] = -GP[ID];}
-        if (ID = 10){GP[ID] = -GP[ID];}
-        if (ID = 12){GP[ID] = -GP[ID];}
-        if (ID = 14){GP[ID] = -GP[ID];}
-    }
+
   }
 }
 
