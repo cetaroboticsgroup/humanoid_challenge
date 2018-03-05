@@ -1,3 +1,4 @@
+/RPI python serial code
 #! /usr/bin/env python
 
 import serial
