@@ -3,7 +3,11 @@
 import numpy as np
 import imutils
 import cv2
+import serial
 
+connected = True
+
+ser = serial.Serial("/dev/ttyACM0", 9600)
 # define the lower and upper boundaries of the "green"
 # ball in the HSV color space, then initialize the
 # list of tracked points
@@ -46,6 +50,7 @@ while True:
 		M = cv2.moments(c)
 		center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
 
+		
 		# only proceed if the radius meets a minimum size
 		if radius > 10:
 			# draw the circle and centroid on the frame,
@@ -55,6 +60,7 @@ while True:
 			cv2.circle(frame, center, 5, (0, 0, 255), -1)
 
 		print("found one circle")
+		ser.write("1")
 
 	# show the frame to our screen
 	cv2.imshow("Frame", frame)
@@ -64,6 +70,15 @@ while True:
 	if key == ord("q"):
 		break
 
+while not connected:
+    serin = ser.read()
+    connected = True
+		
+		
+		
 # cleanup the camera and close any open windows
 camera.release()
 cv2.destroyAllWindows()
+ser.read()
+ser.close()
+
