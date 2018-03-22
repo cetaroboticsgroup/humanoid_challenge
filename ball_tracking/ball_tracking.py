@@ -1,11 +1,6 @@
 #!/usr/bin/env python
-# USAGE
-# python ball_tracking.py
-
 # import the necessary packages
-from collections import deque
 import numpy as np
-import argparse
 import imutils
 import cv2
 
