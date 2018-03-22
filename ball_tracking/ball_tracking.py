@@ -7,8 +7,8 @@ import cv2
 # define the lower and upper boundaries of the "green"
 # ball in the HSV color space, then initialize the
 # list of tracked points
-greenLower = (130, 130, 120)
-greenUpper = (180, 255, 255)
+redLower = (130, 130, 120)
+redUpper = (180, 255, 255)
 
 camera = cv2.VideoCapture(0)
 
@@ -26,7 +26,7 @@ while True:
 	# construct a mask for the color "red", then perform
 	# a series of dilations and erosions to remove any small
 	# blobs left in the mask
-	mask = cv2.inRange(hsv, greenLower, greenUpper)
+	mask = cv2.inRange(hsv, redLower, redUpper)
 	mask = cv2.erode(mask, None, iterations=2)
 	mask = cv2.dilate(mask, None, iterations=2)
 
