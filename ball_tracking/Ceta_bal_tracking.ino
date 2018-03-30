@@ -30,14 +30,14 @@ temp = SerialUSB.read();
 char a = (char)temp;
 //int b = a+1;
 if(a == '1'){
- Dxl.writeWord(ID_NUM, GOAL_POSITION, 512); 
+ Dxl.writeWord(ID_NUM, GOAL_POSITION, 800); 
 SerialUSB.print((char)a);}
 else if((char)a == '0'){
 SerialUSB.print((char)a);
-Dxl.writeWord(ID_NUM, GOAL_POSITION, 300);
+Dxl.writeWord(ID_NUM, GOAL_POSITION, 512);
 }
 else{
-Dxl.writeWord(ID_NUM, GOAL_POSITION, 0);
+Dxl.writeWord(ID_NUM, GOAL_POSITION, 512);
 delay(1000);}
 
 }
