@@ -49,6 +49,9 @@ t0 = 0;
 t1 = atan2(R32,-R12*sin(t0)+R22*cos(t0));
 t2 = atan2(-R31,R33);
 
+T21 = asin(sqrt((1-(C/3780-421/420)^2))*45/sqrt(C));
+T22 = atan2((15-Tx),(sqrt((Ty+24)^2+(Tz+78)^2)+acos(421/420 - C/3780)));
+T2 = angle(sin(T21+T22)+cos(T21+T22));
 % t1 = rad2deg(eval(t1));
 % t2 = rad2deg(eval(t2));
 % t3 = rad2deg(eval(t3));

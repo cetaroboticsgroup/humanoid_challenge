@@ -40,8 +40,17 @@ T6 = [1 0 0 0
  
  T06 = T0*T1*T2*T3*T4*T5;
 
-t0=0;t1=0.3375;t2=-1.117;t3=1.3684;t4=-0.2513;t5=-0.3375;
-T = subs(T06)
+%  t0=0;t1=0;t2=0;t3=0;t4=0;t5=0;
+t0=0;
+t1=0;
+t2=-27.0627;
+t3=30.4390;
+t4=-3.3762 ;
+t5=0;
+t0 = degtorad(t0);t1 = degtorad(t1);t2 = degtorad(t2);t3 = degtorad(t3);t4 = degtorad(t4);t5 = degtorad(t5);
+
+T = subs(T06);
+round(T)
  
 % t0=0;t1=0;t3=pi/3;
 

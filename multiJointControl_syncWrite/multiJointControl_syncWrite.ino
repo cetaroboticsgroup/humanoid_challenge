@@ -38,7 +38,8 @@ void MJC(int GP[17],int T){;
   
   
   for ( ID=1; ID <= 16;ID ++){
-    
+   
+     //Fix rotation direction   
     if(ID = 1){GP[ID] = -GP[ID];}
     if(ID = 3){GP[ID] = -GP[ID];}
     if(ID = 4){GP[ID] = -GP[ID];}
@@ -56,10 +57,7 @@ void MJC(int GP[17],int T){;
     speed[ID] = ((GP[ID]-CP[ID])*1000/T)/2.286; //unit is about 0.111rpm = 0.67deg/s=2.286 num  
     if(speed[ID]<0){speed[ID]=-speed[ID];}  
     if(speed[ID]>1023){speed[ID]=1023;}
-    
-    //Fix rotation direction
-
-    
+      
   }
   
   
@@ -83,6 +81,8 @@ void MJC(int GP[17],int T){;
   15,GP[15],speed[15],
   16,GP[16],speed[16]};
   
+  
+   // byte syncWrite(byte start_addr, byte num_of_data, int *param, int array_length); 
   Dxl.syncWrite(30,2,SyncPage1,48);
   
   delay(1.1*T); // move delay time from SJC to here
