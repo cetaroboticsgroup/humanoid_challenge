@@ -13,12 +13,13 @@ void loop() {
      char x = SerialUSB.read();
      
      if(x > 127){
+       x = x -127;
        Dxl.goalSpeed(17, x);
      }
      else
      {
-       int f = (127+x+1023);    
-       Dxl.goalSpeed(17, f);
+       x = (127-x+1023);    
+       Dxl.goalSpeed(17, x);
        }
      }
      delay(300);
