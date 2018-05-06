@@ -14,21 +14,27 @@ int d (float input){
  return (output);
 }
 
+///////////////////////////////////////
+///Multiple Joint Control Part
+///////////////////////////////////////
+
+//current present and the prior goal present
+double CP[17]={512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512,512};
 
 //Multiple Joint Control function
-void MJC(double GP[17],int T){
-  
-  double CP[17];
+void MJC(double GPI[17],int T){;
   int speed[17];
+  double GP[17];
   int ID;
+  CP[0]=0;
   
-  for ( ID=0; ID <= 16;ID ++){   
-    GP[ID]=d(GP[ID]);              // convert angle to control mircocode
-    CP[ID] = Dxl.readWord(ID,37);   //readcurrent postion to CP
+  for ( ID=1; ID <= 16;ID ++){    
+    GP[ID]=d(GPI[ID]);   
     speed[ID] = ((GP[ID]-CP[ID])*1000/T)/2.286; //unit is about 0.111rpm = 0.67deg/s=2.286 num  
-    if(speed[ID]<0){speed[ID]= -speed[ID];}  
-    if(speed[ID]>1023){speed[ID]=1023;}
-}
+    if(speed[ID]<0){speed[ID]=-speed[ID];}  
+    if(speed[ID]>2047){speed[ID] = 2047;}   
+    CP[ID] = GP[ID]; // store the goal present to current postion       
+  }
   
   word SyncPage1[48]=
   { 
@@ -51,7 +57,7 @@ void MJC(double GP[17],int T){
   
   Dxl.syncWrite(30,2,SyncPage1,48);
   
-  delay(1*T); // move delay time from SJC to here
+  delay(1.1*T); // move delay time from SJC to here
 }
 
 void setup() {
@@ -60,34 +66,27 @@ void setup() {
   int ID;
   
   for ( ID=1; ID <= 16;ID ++){  
-    Dxl.writeByte(ID,24,1); // set Torque modle Enable
-    Dxl.writeWord(ID,35,1023);// set Torqur Limit to Max
+    Dxl.writeByte(ID,24,1);
   }
-  
-  
-  for ( ID=9; ID <= 16;ID ++){ 
-    Dxl.writeByte(ID,29,64); // set leg P gain to 64
-  }
-
   
   double GP1[17] = {0,0,0,-73.24,73.24,0,0,0,0,-26.37,26.37,29.3,-29.3,13.18,-13.18,0,0};
     MJC(GP1,500);
 
 }
 
-
 void loop(){
   
-int T=70;      // Run Time
+int T=75;      // Run Time
 int I;
-float leak = 1.3;
+float leak = 1.2;
 
+for( I=0; I <= 2;I ++){
    //motion 2
     double GP2[17] = {0,0,0,-73.24,73.24,0,0,0,0,-32.23,20.51,29.3,-29.3,10.25,-21.97,2.93,11.72};
     GP2[13] *= leak;
     GP2[14] *= leak;  
     MJC(GP2,T);
-    delay(8);
+    delay(15);
     
   //motion3
     double GP3[17] = {0,8.79,8.79,-73.24,73.24,0,0,-2.93,2.93,-26.37,41.02,29.3,-58.59,16.11,-30.76,2.93,8.79};
@@ -106,7 +105,7 @@ float leak = 1.3;
     GP5[13] *= leak;
     GP5[14] *= leak;
     MJC(GP5,T);
-    delay(8);
+    delay(15);
   
   //motion 6
     double GP6[17] = {0,-9.08,-9.08,-73.54,72.95,-0.29,-0.29,-3.22,2.64,-41.31,26.07,58.3,-29.59,30.47,-16.41,-9.08,-3.22};
@@ -120,6 +119,7 @@ float leak = 1.3;
     GP7[14] *= leak;
     MJC(GP7,T);
     
+    }
   
 ////motion 8
 //  int GP8[17] = {0,0,0,-73.24,73.24,0,0,0,0,-32.23,20.51,29.3,-29.3,10.25,-21.97,2.93,11.72};

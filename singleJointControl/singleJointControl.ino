@@ -3,6 +3,22 @@
 //Dynamixel on Serial1(USART1)  <-OpenCM9.04
 Dynamixel Dxl(1);
 
+
+void setup() {
+  // Dynamixel 2.0 Baudrate -> 0: 9600, 1: 57600, 2: 115200, 3: 1Mbps
+  Dxl.begin(3);
+}
+
+
+
+void loop(){
+SJC(3,0,1000); // call singel joint control function :ID,angle,time(ms)
+SJC(4,0,1000);
+SJC(3,-80,500);
+SJC(4,80,500);
+}
+
+
 //Angle conversion (degree to 0-1023)
 int d (float input){
   int output;
@@ -31,24 +47,9 @@ void SJC(int ID,int GP,int T)//ID num, Goal postion, Time(ms)
     Dxl.writeWord(ID,32,speed) ; // wirte word to motor
     Dxl.writeWord(ID,30,GP) ;
     delay(1.1*T); 
-    SerialUSB.print("Present Speed");// print 
-    SerialUSB.println(speed);
-    SerialUSB.println((GP-PP));
+//    SerialUSB.print("Present Speed");// print 
+//    SerialUSB.println(speed);
+//    SerialUSB.println((GP-PP));
     
-
   }
-}
-
-void setup() {
-  // Dynamixel 2.0 Baudrate -> 0: 9600, 1: 57600, 2: 115200, 3: 1Mbps
-  Dxl.begin(3);
-}
-
-
-
-void loop(){
-SJC(3,0,1000); // call singel joint control function :ID,angle,time(ms)
-SJC(4,0,1000);
-SJC(3,-80,500);
-SJC(4,80,500);
 }

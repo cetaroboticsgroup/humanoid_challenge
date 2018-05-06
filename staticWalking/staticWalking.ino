@@ -53,7 +53,7 @@ void MJC(double GPI[17],int T){;
     GP[ID]=d(GP[ID]);   
     speed[ID] = ((GP[ID]-CP[ID])*1000/T)/2.286; //unit is about 0.111rpm = 0.67deg/s=2.286 num  
     if(speed[ID]<0){speed[ID]=-speed[ID];}  
-    if(speed[ID]>1023){speed[ID]=1023;}   
+    if(speed[ID]>1023){speed[ID] = 1023;}   
     CP[ID] = GP[ID]; // store the goal present to current postion       
   }
    
@@ -147,6 +147,14 @@ void ILK(int Tx, int Ty, int Tz){
 void setup(){
   // Dynamixel 2.0 Baudrate -> 0: 9600, 1: 57600, 2: 115200, 3: 1Mbps
   Dxl.begin(3);
+  int ID;
+  
+  for ( ID=1; ID <= 16;ID ++){  
+    Dxl.writeByte(ID,24,1); // set Torque modle Enable
+   // Dxl.writeWord(ID,35,1023); // set Toeque to max
+  }
+  
+  
   
   //intial motion
 //  double GPI[17] = {0,0,0,73.24,-73.24,0,0,0,0,-26.37,-26.37,29.3,29.3,-13.18,-13.18,0,0};
@@ -154,17 +162,17 @@ void setup(){
 //  delay(500);
  
  double GPI[17];  
-//    IRK(33,-24,-160);
-//    ILK(33,24,-160);
-//  //lean the foot
-//  deg[13] = deg[13]-10;
-//  deg[14] = deg[14]-10; 
-//     for (int i = 7; i<=16;i++)
-//  {
-//    GPI[i]=deg[i];
-//    SerialUSB.println(deg[i]);  
-//    }
-//  MJC(GPI,500);
+    IRK(33,-24,-160);
+    ILK(33,24,-160);
+  //lean the foot
+  deg[13] = deg[13]-10;
+  deg[14] = deg[14]-10; 
+     for (int i = 7; i<=16;i++)
+  {
+    GPI[i]=deg[i];
+    SerialUSB.println(deg[i]);  
+    }
+  MJC(GPI,500);
     
 //lowr and leak
 //   IRK(33,-4,-150);
@@ -193,26 +201,26 @@ void setup(){
 //  MJC(GPI,500);
 //   delay(1500);
 
-  IRK(33,-4,-150);
-  ILK(46,44,-150);
-   deg[13] = deg[13]-10;
-    deg[14] = deg[14]-10;  
-     for (int i = 7; i<=16;i++)
-  {
-    GPI[i]=deg[i];
-  }  
- MJC(GPI,1000); 
- delay(1500);
- 
-  IRK(33,-44,-150);
-  ILK(33,4,-150);
-   deg[13] = deg[13]-10;
-    deg[14] = deg[14]-10;  
-     for (int i = 7; i<=16;i++)
-  {
-    GPI[i]=deg[i];
-  }  
- MJC(GPI,1000); 
+//  IRK(33,-4,-150);
+//  ILK(46,44,-150);
+//   deg[13] = deg[13]-10;
+//    deg[14] = deg[14]-10;  
+//     for (int i = 7; i<=16;i++)
+//  {
+//    GPI[i]=deg[i];
+//  }  
+// MJC(GPI,1000); 
+// delay(1500);
+// 
+//  IRK(33,-44,-150);
+//  ILK(33,4,-150);
+//   deg[13] = deg[13]-10;
+//    deg[14] = deg[14]-10;  
+//     for (int i = 7; i<=16;i++)
+//  {
+//    GPI[i]=deg[i];
+//  }  
+// MJC(GPI,1000); 
 
  
 ////switch gravity from right to left
