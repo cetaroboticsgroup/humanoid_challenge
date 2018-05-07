@@ -7,13 +7,13 @@ import serial
 import math
 
 connected = True
-camera = cv2.VideoCapture(0)
+camera = cv2.VideoCapture(1)
 
-##ser = serial.Serial()			   # create a serial port object
-##ser.baudrate = 9600			  # baud rate, in bits/second
-##ser.port = "/dev/ttyACM0"		   # this is whatever port your are using
-##ser.timeout = 3.0
-##ser.open()
+ser = serial.Serial()			   # create a serial port object
+ser.baudrate = 9600			  # baud rate, in bits/second
+ser.port = "/dev/ttyACM0"		   # this is whatever port your are using
+ser.timeout = 3.0
+ser.open()
 
 
 # define the lower and upper boundaries of the "blue"
@@ -24,6 +24,12 @@ blueUpper = (130, 255, 255)
 
 # keep looping
 while True:
+    # receive openCM feedback
+    n = ser.inWaiting()
+    str = ser.read(n)
+    if str:
+        print str
+
     # grab the current frame
     (grabbed, frame) = camera.read()
 
@@ -46,33 +52,20 @@ while True:
 
     # only proceed if at least one contour was found
     if len(cnts) > 0:
-        
-        
+
         # find the largest contour in the mask
         c = max(cnts, key=cv2.contourArea)
-        
-        moments = cv2.moments(c)
-        
-        x = int(moments['m10'] / moments['m00'])  # cx = M10/M00
-        y = int(moments['m01'] / moments['m00'])  # cy = M01/M00
 
         # ( center (x,y), (width, height), angle of rotation )
         rect = cv2.minAreaRect(c)
         rect = ((rect[0][0], rect[0][1]), (rect[1][0], rect[1][1]), rect[2])
         angle = rect[2]
-        #print(angle)
-        ((x, y), radius) = cv2.minEnclosingCircle(c)
-        
-##        center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
-
-        # space = rect[1][0]*rect[1][1]
-        # print(space)
-
-        #getting numbers from 0 to 255 from the frame
+        #print angle
 
         box = cv2.boxPoints(rect)
         box = np.int0(box)
         cv2.drawContours(frame, [box], 0, (255, 0, 0), 2)
+
 
         ## put text on handle and judge the handle open or not throught angle
         leftTop = box[0]
@@ -84,18 +77,22 @@ while True:
             cv2.putText(frame, 'cloesd handle', (leftTop[0],leftTop[1]), font, 1, (255, 0, 255),4)
 
         #tarcking handle
-        xL = x / 600.0 * 255
-         
 
-        # send ASCII values to microcontroller
-        xL = int(round(xL))
-        ser.write(chr(xL))
-        print xL
+        xb = rect[0][0] / 600.0 * 255
+        xb = abs(255-xb)
 
-    #if no ball is detected
+        # send ASCII values to openCM
+        xb = int(round(xb))
+        if len(cnts) == 0:
+            ser.write(0)
+        else:
+            ser.write(chr(xb))
+        # print xb
+
+    #if no handled is detected
     if len(cnts) == 0:
         font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(frame, 'no handled found', (250, 300), font, 1, (255, 0, 255), 4)
+        cv2.putText(frame, 'no handle found', (250, 300), font, 1, (255, 0, 255), 4)
 
     # show the frame to our screen
     cv2.imshow("Frame", frame)
