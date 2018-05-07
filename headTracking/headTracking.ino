@@ -1,14 +1,13 @@
 Dynamixel Dxl(1);
 void setup() {
   // put your setup code here, to run once:
-  pinMode(BOARD_LED_PIN, OUTPUT);
   Dxl.begin(3);
   Dxl.wheelMode(17); //joinMode() is to use position mode
 }
 
 void loop() {
   // put your main code here, to run repeatedly: 
-  if (SerialUSB.available()>0)
+  while (SerialUSB.available())
   {
      char x = SerialUSB.read();
      
