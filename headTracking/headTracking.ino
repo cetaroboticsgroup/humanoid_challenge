@@ -2,23 +2,30 @@ Dynamixel Dxl(1);
 void setup() {
   // put your setup code here, to run once:
   Dxl.begin(3);
-  Dxl.wheelMode(17); //joinMode() is to use position mode
+  Dxl.writeByte(17, 11, 1);  //joinMode() is to use position mode
+  Dxl.writeWord(17, 6, 200); //CW Limit
+  Dxl.writeWord(17, 8, 823); //CCW Limit
 }
 
+
 void loop() {
-  // put your main code here, to run repeatedly: 
+  //inital the goal speed
+  Dxl.writeWord(17,30, 0);
+  
   while (SerialUSB.available())
   {
      char x = SerialUSB.read();
      
      if(x > 127){
-       x = (x -127)*3;
-       Dxl.goalSpeed(17, x);
+       int f = (x -127)*2.5;
+       Dxl.writeWord(17,32, f);
+       SerialUSB.println(f);
      }
      else
      {
-       x = ((127-x)*3+1023);    
-       Dxl.goalSpeed(17, x);
+       int f = ((127-x)*2.5+1023);    
+       Dxl.writeWord(17,32, f);
+       SerialUSB.println(f);
        }
      }
      delay(100);

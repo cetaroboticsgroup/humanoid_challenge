@@ -10,7 +10,8 @@ void usbInterrupt(byte* buffer, byte nCount){
   char cmd[3];
   for(int i=0; i < nCount;i++){  //printf_SerialUSB_Buffer[N]_receive_Data
     cmd[i] = buffer[i];
-     SerialUSB.println(cmd[i]);}
+    SerialUSB.println(cmd[i]);}
+   SerialUSB.println("R");
 }
 
 void loop(){
